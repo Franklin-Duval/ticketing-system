@@ -4,17 +4,17 @@ import { Card, CardBody, CardTitle, } from "reactstrap";
 import Sidebar from './SidebarTechnicien'
 import Header from './HeaderTechnicien'
 
-export default class Dashboard extends Component {
+export default class TicketAttente extends Component {
     render() {
         return (
             <div>
-                <Sidebar clicked="dashboard" />
+                <Sidebar clicked="ticketAttente" />
                 <div style={{marginLeft: 220}}>
                     <Header />
                     <div className="container-fluid">
                         <Card className="shadow">
                             <CardTitle className="border-0">
-                                <h5 className="mb-0" style={{marginTop: 15, marginLeft: 20}}>Tous mes tickets</h5>
+                                <h5 className="mb-0" style={{marginTop: 15, marginLeft: 20}}>Tickets en Attente</h5>
                             </CardTitle>
 
                             <CardBody>
