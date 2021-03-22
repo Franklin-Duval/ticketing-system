@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardTitle, } from "reactstrap";
 
-import Sidebar from './HeaderUser'
+import Sidebar from './SidebarUser'
 import Header from './HeaderUser'
 
 export default class TicketRelancer extends Component {

@@ -4,3 +4,23 @@
     padding-bottom: 175px;
     margin-bottom: -75px;
 }
+
+.btn-new-ticket{
+    border-radius: 5px;
+    font-size: 18px;
+    color: white;
+    font-family: Montserrat;
+    border: 1px solid white;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #455a64;
+    outline: none;    
+}
+
+.btn-new-ticket:hover{
+    outline: none;
+    border: 2px solid #455a64;
+    color: #455a64;
+    background-color: transparent;
+}

@@ -15,7 +15,7 @@ export default class SidebarAdmin extends React.Component{
             <div>
                 <div className="side-nav">
                     <div className="compu row" style={{marginLeft: 0}}>                        
-                        <h6 className="text-center" style={{}}>Tiketing System</h6>
+                        <h6 className="text-center" style={{}}><Link to="/">Tiketing System</Link></h6>
                     </div>
 
                     <div className="line"></div>
@@ -63,7 +63,7 @@ export default class SidebarAdmin extends React.Component{
                     
                     <div className="link row">
                         <FaSignOutAlt color='red' size={16} style={{marginTop: 5}} />
-                        <Link to="/admin/statistics" style={styles.links}>Déconnecter</Link>
+                        <Link to="/admin/dashboard" style={styles.links}>Déconnecter</Link>
                     </div>
                     
                 </div>

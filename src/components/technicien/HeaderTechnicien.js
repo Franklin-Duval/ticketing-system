@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 
 import { BsFileEarmarkCheck, } from 'react-icons/bs'
+import { FaUserCircle } from 'react-icons/fa'
 import '../../assets/css/header.css'
 
 export default class Header extends Component {
@@ -11,9 +12,10 @@ export default class Header extends Component {
             <div className="head">
                 <div className="container-fluid">
                     <div className="row" style={{ padding: 20}}>
-                        <p style={{fontFamily: 'Tauri', fontSize: 20}}>DASHBOARD</p>
+                        <p style={{fontFamily: 'Tauri', fontSize: 25, color: 'black'}}>DASHBOARD</p>
                         <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end',}}>
-                            <p>User</p>
+                            <FaUserCircle color="white" size={40} />
+                            <p style={{fontFamily: 'Tauri', fontSize: 16, color: 'white', marginLeft: 10, textAlign: 'center'}}>Technicien Talom</p>
                         </div>
                         
                     </div>
