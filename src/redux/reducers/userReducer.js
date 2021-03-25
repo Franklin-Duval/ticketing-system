@@ -9,6 +9,7 @@ const INITIAL_STORE = {
         nom: "",
         prenom: "",
         email: "",
+        url: ""
     }
 }
 

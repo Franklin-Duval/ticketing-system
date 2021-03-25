@@ -1,14 +1,19 @@
 import React from 'react'
 import { FiMail, FiLock, FiUser } from 'react-icons/fi'
-//import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
+import { BeatLoader } from 'react-spinners'
 
-//import API_URL from '../assets/constant'
+import {API_URL} from './constants'
 import '../../assets/css/form.css'
 import logo from '../../assets/images/finger.png'
 
-export default class Register extends React.Component{
+import { connect } from 'react-redux'
+import { createUser } from '../../redux/actions/action'
+
+class Register extends React.Component{
 
     state = {
+        isLoading: false,
         nom: "",
         prenom: "",
         email: "",
@@ -18,50 +23,67 @@ export default class Register extends React.Component{
         finish: false,
     }
 
-    /* handleSubmit = (event) => {
+    handleSubmit = (event) => {
         event.preventDefault()
-        fetch(API_URL + 'auth-login/', {
+        this.setState({isLoading: true})
+        fetch(API_URL + 'client/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-type': 'application/json'
             },
             body: JSON.stringify({
-                username: this.state.user_name,
+                nom: this.state.nom,
+                prenom: this.state.prenom,
+                email: this.state.email,
                 password: this.state.password,
-                type: this.state.type,
+                role: "Utilisateur",
             })
 
         })
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
-            if (responseJson.login === "FAILED"){
+            if (!responseJson.success){
                 alert(responseJson.message)
             }
-            else if (responseJson.login === "SUCCESS"){
-                if (responseJson.type === "admin"){
-                    this.setState({
-                        finish: true,
-                        type: "admin"
-                    })
-                }
-                else{
-                    this.setState({
-                        finish: true,
-                        type: "policier"
-                    })
-                }
+            else if (responseJson.success){
+                this.props.save_user({
+                    authentifie: true,
+                    userType: responseJson.data.role,
+                    id: responseJson.data.id,
+                    nom: responseJson.data.nom,
+                    prenom: responseJson.data.prenom,
+                    email: responseJson.data.email,
+                    url: responseJson.data.url
+                })
             }
-
         })
         .catch((error) =>{
             console.log(error)
         })
-    } */
+        .then(() => this.setState({isLoading: false}))
+    }
 
     render(){
         return(
+            this.state.isLoading
+            ?
+            <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+                <BeatLoader loading={this.state.isLoading} size={20} color="#ffa000" />
+            </div>
+            :
+            this.props.user.authentifie && this.props.user.userType === "Admin"
+            ?
+            <Redirect to="/admin/dashboard" />
+            :
+            this.props.user.authentifie && this.props.user.userType === "Utilisateur"
+            ?
+            <Redirect to="/user/dashboard" />
+            :
+            this.props.user.authentifie && this.props.user.userType === "Technicien"
+            ?
+            <Redirect to="/technicien/dashboard" />
+            :
             <div className="container-fluid bodys" >
                 <p style={styles.text}>Ticketing System</p>
                 <form className="forms" onSubmit={(event) => this.handleSubmit(event)} >
@@ -135,3 +157,18 @@ const styles = {
         fontFamily: 'Montserrat'
     }
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+        user : state.userReducer.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        save_user : (user) => dispatch(createUser(user))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

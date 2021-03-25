@@ -12,13 +12,15 @@ export default class Home extends Component {
         return (
             <div>
                 <div className="top">
-                    <p className="big-title">TICKETING SYSTEM</p>
+                    <div className="container">
+                        <p className="big-title">TICKETING SYSTEM</p>
 
-                    <p className="sub-title">Plateforme d'assistance et de maintenance de l'ecosytème d'application WiaFirm</p>
+                        <p className="sub-title">Plateforme d'assistance et de maintenance de l'ecosytème d'application WiaFirm</p>
+                    </div>
                     
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                         <img src={home} alt="" height={250} width={250} />
-                        <Link className="top-button" to="/admin/dashboard">Poser un Problème</Link>
+                        <Link className="top-button" to="/login">Poser un Problème</Link>
                     </div>
                 </div>
 

@@ -4,7 +4,10 @@ import { FaDesktop, FaSignOutAlt, FaSpinner } from 'react-icons/fa'
 import { BsFileEarmarkCheck, BsFileEarmarkDiff } from 'react-icons/bs'
 import '../../assets/css/sidebar.css'
 
-export default class SidebarTechnicien extends Component {
+import { connect } from 'react-redux'
+import { createUser } from '../../redux/actions/action'
+
+class SidebarTechnicien extends Component {
     render() {
         let clicked = this.props.clicked
         return(
@@ -41,7 +44,21 @@ export default class SidebarTechnicien extends Component {
                     
                     <div className="link row">
                         <FaSignOutAlt color='red' size={16} style={{marginTop: 5}} />
-                        <Link to="/technicien/dashboard" style={styles.links}>Déconnecter</Link>
+                        <Link to="/" style={styles.links}>
+                            <span onClick={() => {
+                                this.props.save_user({
+                                    authentifie: false,
+                                    userType: "",
+                                    id: "",
+                                    nom: "",
+                                    prenom: "",
+                                    email: "",
+                                    url: ""
+                                })
+                            }}>
+                                Déconnecter
+                            </span>
+                        </Link>
                     </div>
                     
                 </div>
@@ -65,3 +82,17 @@ const styles = {
         marginRight: 5
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user : state.userReducer.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        save_user : (user) => dispatch(createUser(user))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarTechnicien)

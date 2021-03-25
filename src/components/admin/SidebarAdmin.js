@@ -6,8 +6,10 @@ import { FcComboChart } from 'react-icons/fc'
 import { BsFileEarmarkCheck, BsFileEarmarkDiff } from 'react-icons/bs'
 import '../../assets/css/sidebar.css'
 
+import { connect } from 'react-redux'
+import { createUser } from '../../redux/actions/action'
 
-export default class SidebarAdmin extends React.Component{
+class SidebarAdmin extends React.Component{
 
     render(){
         let clicked = this.props.clicked
@@ -63,7 +65,21 @@ export default class SidebarAdmin extends React.Component{
                     
                     <div className="link row">
                         <FaSignOutAlt color='red' size={16} style={{marginTop: 5}} />
-                        <Link to="/admin/dashboard" style={styles.links}>Déconnecter</Link>
+                        <Link to="/" style={styles.links}>
+                            <span onClick={() => {
+                                this.props.save_user({
+                                    authentifie: false,
+                                    userType: "",
+                                    id: "",
+                                    nom: "",
+                                    prenom: "",
+                                    email: "",
+                                    url: ""
+                                })
+                            }}>
+                                Déconnecter
+                            </span>
+                        </Link>
                     </div>
                     
                 </div>
@@ -87,3 +103,17 @@ const styles = {
         marginRight: 5
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user : state.userReducer.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        save_user : (user) => dispatch(createUser(user))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarAdmin)

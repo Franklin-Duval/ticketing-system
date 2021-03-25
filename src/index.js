@@ -10,6 +10,7 @@ import $ from 'jquery'
 // eslint-disable-next-line
 import Popper from 'popper.js'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
+import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit'
 
 import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'

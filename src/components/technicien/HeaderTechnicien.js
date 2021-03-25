@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-
+import { connect } from 'react-redux'
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 
 import { BsFileEarmarkCheck, } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
 import '../../assets/css/header.css'
 
-export default class Header extends Component {
+class Header extends Component {
     render() {
         return (
             <div className="head">
@@ -15,7 +15,10 @@ export default class Header extends Component {
                         <p style={{fontFamily: 'Tauri', fontSize: 25, color: 'black'}}>DASHBOARD</p>
                         <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end',}}>
                             <FaUserCircle color="white" size={40} />
-                            <p style={{fontFamily: 'Tauri', fontSize: 16, color: 'white', marginLeft: 10, textAlign: 'center'}}>Technicien Talom</p>
+                            <p style={{fontFamily: 'Tauri', fontSize: 16, color: 'white', marginLeft: 10, textAlign: 'center'}}>
+                                {this.props.user.nom } <br/>
+                                {this.props.user.prenom}
+                            </p>
                         </div>
                         
                     </div>
@@ -98,3 +101,10 @@ export default class Header extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        user : state.userReducer.user
+    }
+}
+
+export default connect(mapStateToProps)(Header)

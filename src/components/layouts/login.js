@@ -1,65 +1,73 @@
 import React from 'react'
 import { FiMail, FiLock } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
-//import API_URL from '../assets/constant'
+import {API_URL} from './constants'
 import '../../assets/css/form.css'
 import logo from '../../assets/images/finger.png'
 
-export default class Login extends React.Component{
+import { connect } from 'react-redux'
+import { createUser } from '../../redux/actions/action'
+
+class Login extends React.Component{
 
     state = {
         email: "",
         password: "",
-        type: "",
-
-        finish: false,
+        
     }
 
-    /* handleSubmit = (event) => {
+    handleSubmit = (event) => {
         event.preventDefault()
-        fetch(API_URL + 'auth-login/', {
+        fetch(API_URL + 'login/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-type': 'application/json'
             },
             body: JSON.stringify({
-                username: this.state.user_name,
+                email: this.state.email,
                 password: this.state.password,
-                type: this.state.type,
             })
 
         })
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
-            if (responseJson.login === "FAILED"){
+            if (!responseJson.success){
                 alert(responseJson.message)
             }
-            else if (responseJson.login === "SUCCESS"){
-                if (responseJson.type === "admin"){
-                    this.setState({
-                        finish: true,
-                        type: "admin"
-                    })
-                }
-                else{
-                    this.setState({
-                        finish: true,
-                        type: "policier"
-                    })
-                }
+            else if (responseJson.success){
+                this.props.save_user({
+                    authentifie: true,
+                    userType: responseJson.data.role,
+                    id: responseJson.data.id,
+                    nom: responseJson.data.nom,
+                    prenom: responseJson.data.prenom,
+                    email: responseJson.data.email,
+                    url: responseJson.data.url
+                })
             }
 
         })
         .catch((error) =>{
             console.log(error)
         })
-    } */
+    }
 
     render(){
         return(
+            this.props.user.authentifie && this.props.user.userType === "Admin"
+            ?
+            <Redirect to="/admin/dashboard" />
+            :
+            this.props.user.authentifie && this.props.user.userType === "Utilisateur"
+            ?
+            <Redirect to="/user/dashboard" />
+            :
+            this.props.user.authentifie && this.props.user.userType === "Technicien"
+            ?
+            <Redirect to="/technicien/dashboard" />
+            :
             <div className="container-fluid bodys" >
                 <p style={styles.text}>Ticketing System</p>
                 <form className="forms" onSubmit={(event) => this.handleSubmit(event)} >
@@ -121,3 +129,17 @@ const styles = {
         fontSize: 14,
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user : state.userReducer.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        save_user : (user) => dispatch(createUser(user))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

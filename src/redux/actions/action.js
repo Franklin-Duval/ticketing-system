@@ -11,5 +11,6 @@ export const createUser = (user) => ({
         nom: user.nom,
         prenom: user.prenom,
         email: user.email,
+        url: user.url,
     }
 })
