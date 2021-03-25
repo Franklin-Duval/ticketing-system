@@ -22,13 +22,13 @@ export default class Technicien extends Component {
     }
 
     fetchTechnicians = () => {
-        fetch(API_URL + "technicien/")
+        fetch(API_URL + "techniciens/")
         .then((response) => response.json())
         .then((responseJson) => {
             console.log(responseJson)
-            if (responseJson){
+            if (responseJson.success){
                 this.setState({
-                    allTechnicians: responseJson,
+                    allTechnicians: responseJson.data,
                     isLoading: false
                 })
             }
@@ -43,7 +43,7 @@ export default class Technicien extends Component {
                 <Sidebar clicked="technicien" />
                 <div style={{marginLeft: 220}}>
                     <Header />
-                    <div className="container-fluid">
+                    <div className="container-fluid" style={{marginBottom: 50}}>
                         <Card className="shadow">
                             <CardTitle className="border-0">
                                 <h5 className="mb-0" style={{marginTop: 15, marginLeft: 20}}>Techniciens</h5>
@@ -142,6 +142,14 @@ export default class Technicien extends Component {
         {
             dataField: 'service',
             text: 'Service',
+            sort: true,
+            headerStyle: this.styles.header,
+            headerSortingStyle: this.styles.headerSort
+        },
+
+        {
+            dataField: 'number_ticket',
+            text: 'Nombre de ticket',
             sort: true,
             headerStyle: this.styles.header,
             headerSortingStyle: this.styles.headerSort
