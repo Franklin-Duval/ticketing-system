@@ -146,6 +146,13 @@ export default class TicketResolu extends Component {
                 </span>
             )
         }
+        else if (row.etat === "Terminé"){
+            return(
+                <span>
+                    <strong style={{color: '#ffa000', fontSize: 18}}>{cell}</strong>
+                </span>
+            )
+        }
         else{
             return(
                 <span>{cell} </span>

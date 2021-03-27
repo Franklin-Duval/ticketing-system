@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, CardBody, CardTitle, } from "reactstrap"
+import { Card, CardBody, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap"
 import { BeatLoader } from 'react-spinners'
 
 import Sidebar from './SidebarUser'
@@ -16,7 +16,9 @@ class TicketAttente extends Component {
     state = {
         isLoading: true,
         waitingTickets: [],
-        selectedRow: {}
+        selectedRow: {},
+        showModal: false,
+        message: ""
     }
 
     componentDidMount(){
@@ -37,6 +39,24 @@ class TicketAttente extends Component {
         })
         .catch((error) => console.log(error))
     }
+
+    relancerTicket = () => {
+        this.setState({isLoading: true})
+        fetch(API_URL + 'relancer-tickets/' + this.state.selectedRow.id + '/')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            this.setState({isLoading: false})
+            if (responseJson.success){
+                this.setState({
+                    showModal: true,
+                    message: responseJson.message
+                })
+            }
+        })
+        .then(() => this.fetchTickets())
+    }
+
 
     render() {
         const { SearchBar } = Search
@@ -68,7 +88,15 @@ class TicketAttente extends Component {
                                         {(props) => (
                                             <div>
                                                 <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30}}>
-                                                    <SearchBar {...props.searchProps} style={{width: 350}} />
+                                                    <button
+                                                        style={this.styles.button}
+                                                        disabled={this.state.selectedRow ? false : true}
+                                                        onClick={() => this.relancerTicket()}
+                                                    >
+                                                        Relancer un ticket
+                                                    </button>
+
+                                                    <SearchBar {...props.searchProps} style={{width: 350, height: 50, fontFamily: 'Tauri'}} />
                                                 </div>
                                                 <hr/>
                                                 <BootstrapTable
@@ -90,6 +118,15 @@ class TicketAttente extends Component {
                         </Card>
                     </div>
                     
+                    <Modal isOpen={this.state.showModal} toggle={() => this.setState({showModal: !this.state.showModal})}>
+                        <ModalHeader>Opération</ModalHeader>
+                        <ModalBody>
+                            {this.state.message}
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => this.setState({showModal: !this.state.showModal})}>Fermer</Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
             </div>
         )
@@ -167,6 +204,16 @@ class TicketAttente extends Component {
         headerSort:{
             backgroundColor: '#e0e0e0',
 
+        },
+
+        button:{
+            backgroundColor: '#ffa000',
+            color: 'white',
+            width: 300,
+            marginRight: '20%',
+            borderRadius: 5,
+            fontFamily: 'Montserrat',
+            fontSize: 18
         }
     }
 

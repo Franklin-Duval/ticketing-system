@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, CardBody, CardTitle, } from "reactstrap"
+import { Card, CardBody, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap"
 import { BeatLoader } from 'react-spinners'
 
 import Sidebar from './SidebarAdmin'
@@ -8,13 +8,19 @@ import ToolkitProvider, { Search, } from 'react-bootstrap-table2-toolkit'
 import BootstrapTable from 'react-bootstrap-table-next'
 
 import { API_URL } from '../layouts/constants'
+import { connect } from 'react-redux'
 
-export default class NouveauTicket extends Component {
+class NouveauTicket extends Component {
     
     state = {
         isLoading: true,
         newTickets: [],
-        selectedRow: {}
+        allTechnicians: [],
+        selectedRow: null,
+        idTechnicien: "",
+        showModal: false,
+        showModal2: false,
+        message: ""
     }
 
     componentDidMount(){
@@ -29,12 +35,59 @@ export default class NouveauTicket extends Component {
             if (responseJson.success){
                 this.setState({
                     newTickets: responseJson.data,
+                })
+            }
+        })
+        .then(() => this.fetchTechnicians())
+        .catch((error) => console.log(error))
+    }
+
+    fetchTechnicians = () => {
+        fetch(API_URL + "techniciens/")
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            if (responseJson.success){
+                this.setState({
+                    allTechnicians: responseJson.data,
                     isLoading: false
                 })
             }
         })
         .catch((error) => console.log(error))
     }
+
+    //permet d'affecter un ticket a un technicien
+    affectTicket = () => {
+        this.setState({
+            isLoading: true,
+            showModal: false
+        })
+        fetch(API_URL + 'affect-tickets/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                ticket: this.state.selectedRow.id,
+                admin: this.props.user.id,
+                technicien: this.state.idTechnicien
+            })
+
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            if (responseJson.success){
+                this.setState({
+                    message: responseJson.message,
+                    showModal2: true
+                })
+            }
+        })
+        .then(() => this.fetchTickets())
+    }
+
     render() {
         const { SearchBar } = Search
         return (
@@ -65,7 +118,15 @@ export default class NouveauTicket extends Component {
                                         {(props) => (
                                             <div>
                                                 <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30}}>
-                                                    <SearchBar {...props.searchProps} style={{width: 350}} />
+                                                    <button
+                                                        style={this.styles.button}
+                                                        disabled={this.state.selectedRow ? false : true}
+                                                        onClick={() => this.setState({showModal: true})}
+                                                    >
+                                                        Affecter un ticket
+                                                    </button>
+
+                                                    <SearchBar {...props.searchProps} style={{width: 350, height: 50, fontFamily: 'Tauri'}} />
                                                 </div>
                                                 <hr/>
                                                 <BootstrapTable
@@ -87,6 +148,36 @@ export default class NouveauTicket extends Component {
                         </Card>
                     </div>
                     
+                    <Modal isOpen={this.state.showModal} toggle={() => this.setState({showModal: !this.state.showModal})}>
+                        <ModalHeader>Choisir le Technicien</ModalHeader>
+                        <ModalBody>
+                            <select style={this.styles.dropDown} onChange={(event) => this.setState({idTechnicien: event.target.value})}>
+                                <option>Choisir Technicien</option>
+                                {
+                                    this.state.allTechnicians.map((item, index) => {
+                                        return(
+                                            <option key={index} value={item.id}>
+                                                {item.nom} {item.prenom} | Ticket en cours : {item.number_ticket}
+                                            </option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => this.affectTicket()}>Valider</Button>
+                        </ModalFooter>
+                    </Modal>
+                    
+                    <Modal isOpen={this.state.showModal2} toggle={() => this.setState({showModal2: !this.state.showModal2})}>
+                        <ModalHeader>Opération</ModalHeader>
+                        <ModalBody>
+                            {this.state.message}
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => this.setState({showModal2: !this.state.showModal2})}>Fermer</Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
             </div>
         )
@@ -164,6 +255,26 @@ export default class NouveauTicket extends Component {
         headerSort:{
             backgroundColor: '#e0e0e0',
 
+        },
+
+        button:{
+            backgroundColor: '#ffa000',
+            color: 'white',
+            width: 300,
+            height: 50,
+            marginRight: '15%',
+            borderRadius: 5,
+            fontFamily: 'Montserrat',
+            fontSize: 18
+        },
+
+        dropDown: {
+            height: 50,
+            width: '100%',
+            fontFamily: 'Montserrat',
+            fontSize: 16,
+            borderRadius: 5,
+            paddingLeft: 10
         }
     }
 
@@ -227,4 +338,12 @@ export default class NouveauTicket extends Component {
         }
     ]
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user : state.userReducer.user
+    }
+}
+
+export default connect(mapStateToProps)(NouveauTicket)
 
