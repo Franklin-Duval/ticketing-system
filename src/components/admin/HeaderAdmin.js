@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { FaUserCircle } from 'react-icons/fa'
 import { connect } from 'react-redux'
-import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap"
 
 import { BsFileEarmarkCheck, } from 'react-icons/bs'
 import '../../assets/css/header.css'
@@ -16,7 +16,7 @@ class Header extends Component {
                         <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end',}}>
                             <FaUserCircle color="white" size={40} />
                             <p style={{fontFamily: 'Tauri', fontSize: 16, color: 'white', marginLeft: 10, textAlign: 'center'}}>
-                                {this.props.user.nom}  <br/>
+                                {this.props.user.nom}
                                 {this.props.user.prenom}
                             </p>
                         </div>

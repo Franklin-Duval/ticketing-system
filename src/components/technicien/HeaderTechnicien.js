@@ -16,8 +16,7 @@ class Header extends Component {
                         <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end',}}>
                             <FaUserCircle color="white" size={40} />
                             <p style={{fontFamily: 'Tauri', fontSize: 16, color: 'white', marginLeft: 10, textAlign: 'center'}}>
-                                {this.props.user.nom } <br/>
-                                {this.props.user.prenom}
+                                {this.props.user.nom } {this.props.user.prenom}
                             </p>
                         </div>
                         
