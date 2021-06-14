@@ -56,10 +56,17 @@ class Dashboard extends Component {
                 this.setState({
                     message: responseJson.message,
                     showModal: true,
+                    isLoading: false
                 })
             }
         })
         .then(() => this.fetchTickets())
+        .catch((error) => {
+            console.log(error)
+            this.setState({
+                isLoading: false
+            })
+        })
     }
 
     render() {

@@ -55,7 +55,12 @@ class Dashboard extends Component {
                 })
             }
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            console.log(error)
+            this.setState({
+                isLoading: false,
+            })
+        })
     }
 
     //permet d'affecter un ticket a un technicien

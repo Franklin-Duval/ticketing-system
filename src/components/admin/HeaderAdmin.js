@@ -2,11 +2,34 @@ import React, { Component } from 'react'
 import { FaUserCircle } from 'react-icons/fa'
 import { connect } from 'react-redux'
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap"
+import { API_URL } from '../layouts/constants'
 
 import { BsFileEarmarkCheck, } from 'react-icons/bs'
 import '../../assets/css/header.css'
 
 class Header extends Component {
+    
+    state = {
+        stats: {}
+    }
+
+    componentDidMount(){
+        this.fetchStats()
+    }
+
+    fetchStats = () => {
+        fetch(API_URL + "admin-stats/")
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                stats: responseJson,
+            })
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
     render() {
         return (
             <div className="head">
@@ -43,7 +66,7 @@ class Header extends Component {
                                                     Nouveaux Tickets
                                                 </CardTitle>
                                                 <span className="h3 font-weight-bold mb-0">
-                                                28
+                                                {this.state.stats.num_new_tik}
                                                 </span>
                                             </div>
                                             <BsFileEarmarkCheck color='green' size={30} />
@@ -60,7 +83,9 @@ class Header extends Component {
                                                 <CardTitle tag="h6" className="text-uppercase text-muted mb-0" >
                                                     Tickets en attente
                                                 </CardTitle>
-                                                <span className="h2 font-weight-bold mb-0">26</span>
+                                                <span className="h2 font-weight-bold mb-0">
+                                                {this.state.stats.num_wait_tik}
+                                                </span>
                                             </div>
                                         </Row>
                                     </CardBody>
@@ -73,9 +98,11 @@ class Header extends Component {
                                         <Row>
                                             <div className="col">
                                                 <CardTitle tag="h6" className="text-uppercase text-muted mb-0" >
-                                                    Tickets résolus
+                                                    Tickets relancés
                                                 </CardTitle>
-                                                <span className="h2 font-weight-bold mb-0">9</span>
+                                                <span className="h2 font-weight-bold mb-0">
+                                                {this.state.stats.num_rel_tik}
+                                                </span>
                                             </div>
                                         </Row>
                                     </CardBody>
@@ -90,7 +117,9 @@ class Header extends Component {
                                                 <CardTitle tag="h6" className="text-uppercase text-muted mb-0" >
                                                     Techniciens
                                                 </CardTitle>
-                                                <span className="h2 font-weight-bold mb-0">26</span>
+                                                <span className="h2 font-weight-bold mb-0">
+                                                    {this.state.stats.num_tech_tik}
+                                                </span>
                                             </div>
                                         </Row>
                                     </CardBody>

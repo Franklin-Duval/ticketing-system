@@ -1,12 +1,34 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import { API_URL } from '../layouts/constants'
 
-import { BsFileEarmarkCheck, } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
 import '../../assets/css/header.css'
 
 class Header extends Component {
+
+    state = {
+        stats: {}
+    }
+
+    componentDidMount(){
+        this.fetchStats()
+    }
+
+    fetchStats = () => {
+        fetch(API_URL + "technician-stats/" + this.props.user.id + "/")
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                stats: responseJson,
+            })
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
     render() {
         return (
             <div className="head">
@@ -32,26 +54,8 @@ class Header extends Component {
                     <Container fluid>
                         <div className="header-body">
                         {/* Card stats */}
-                            <Row>
-                                <Col lg="6" xl="3">
-                                    <Card className="card-stats mb-4 mb-xl-0">
-                                    <CardBody>
-                                        <Row>
-                                            <div className="col">
-                                                <CardTitle tag="h6" className="text-uppercase text-muted mb-0" >
-                                                    Nouveaux Tickets
-                                                </CardTitle>
-                                                <span className="h3 font-weight-bold mb-0">
-                                                28
-                                                </span>
-                                            </div>
-                                            <BsFileEarmarkCheck color='green' size={30} />
-                                        </Row>
-                                    </CardBody>
-                                    </Card>
-                                </Col>
-                                
-                                <Col lg="6" xl="3">
+                            <Row>                                
+                                <Col lg="6" xl="4">
                                     <Card className="card-stats mb-4 mb-xl-0">
                                     <CardBody>
                                         <Row>
@@ -59,14 +63,16 @@ class Header extends Component {
                                                 <CardTitle tag="h6" className="text-uppercase text-muted mb-0" >
                                                     Tickets en attente
                                                 </CardTitle>
-                                                <span className="h2 font-weight-bold mb-0">26</span>
+                                                <span className="h2 font-weight-bold mb-0">
+                                                {this.state.stats.num_wait_tik}
+                                                </span>
                                             </div>
                                         </Row>
                                     </CardBody>
                                     </Card>
                                 </Col>
 
-                                <Col lg="6" xl="3">
+                                <Col lg="6" xl="4">
                                     <Card className="card-stats mb-4 mb-xl-0">
                                     <CardBody>
                                         <Row>
@@ -74,22 +80,26 @@ class Header extends Component {
                                                 <CardTitle tag="h6" className="text-uppercase text-muted mb-0" >
                                                     Tickets résolus
                                                 </CardTitle>
-                                                <span className="h2 font-weight-bold mb-0">9</span>
+                                                <span className="h2 font-weight-bold mb-0">
+                                                {this.state.stats.num_fin_tik}
+                                                </span>
                                             </div>
                                         </Row>
                                     </CardBody>
                                     </Card>
                                 </Col>
 
-                                <Col lg="6" xl="3">
+                                <Col lg="6" xl="4">
                                     <Card className="card-stats mb-4 mb-xl-0">
                                     <CardBody>
                                         <Row>
                                             <div className="col">
                                                 <CardTitle tag="h6" className="text-uppercase text-muted mb-0" >
-                                                    Techniciens
+                                                    Tickets Relancés
                                                 </CardTitle>
-                                                <span className="h2 font-weight-bold mb-0">26</span>
+                                                <span className="h2 font-weight-bold mb-0">
+                                                {this.state.stats.num_rel_tik}
+                                                </span>
                                             </div>
                                         </Row>
                                     </CardBody>

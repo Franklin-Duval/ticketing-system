@@ -57,6 +57,7 @@ class TicketAttente extends Component {
                 this.setState({
                     message: responseJson.message,
                     showModal: true,
+                    isLoading: false
                 })
             }
         })
