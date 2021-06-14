@@ -65,10 +65,10 @@ export default class TicketResolu extends Component {
                                     >
                                         {(props) => (
                                             <div>
-                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30}}>
+                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30, marginBottom: 20}}>
                                                     <SearchBar {...props.searchProps} style={{width: 350}} />
                                                 </div>
-                                                <hr/>
+                                                
                                                 <BootstrapTable
                                                     hover
                                                     bootstrap4
@@ -160,10 +160,20 @@ export default class TicketResolu extends Component {
         }
     }
 
+    descriptionFormatter = (cell, row) => {
+        return(
+            <span>
+                {cell.slice(0, 100)}
+                {
+                    cell.length>100 && <span>...</span>
+                }
+                
+            </span>
+        )
+    }
+
     styles = {
         header:{
-            backgroundColor: '#ffa000', //#f5f5f5 grey white
-            color: '#fff',
             fontFamily: 'Montserrat',
             fontSize: 16,
             minWidth: 150
@@ -230,6 +240,7 @@ export default class TicketResolu extends Component {
             dataField: 'description',
             text: 'Description',
             sort: false,
+            formatter: this.descriptionFormatter,
             headerStyle: this.styles.header,
             headerSortingStyle: this.styles.headerSort
         }

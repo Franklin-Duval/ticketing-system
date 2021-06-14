@@ -87,7 +87,7 @@ class TicketAttente extends Component {
                                     >
                                         {(props) => (
                                             <div>
-                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30}}>
+                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30, marginBottom: 20}}>
                                                     <button
                                                         style={this.styles.button}
                                                         disabled={this.state.selectedRow ? false : true}
@@ -96,9 +96,9 @@ class TicketAttente extends Component {
                                                         Relancer un ticket
                                                     </button>
 
-                                                    <SearchBar {...props.searchProps} style={{width: 350, height: 50, fontFamily: 'Tauri'}} />
+                                                    <SearchBar {...props.searchProps} style={{width: 350, height: 40, fontFamily: 'Tauri'}} />
                                                 </div>
-                                                <hr/>
+                                                
                                                 <BootstrapTable
                                                     hover
                                                     bootstrap4
@@ -192,12 +192,22 @@ class TicketAttente extends Component {
         }
     }
 
+    descriptionFormatter = (cell, row) => {
+        return(
+            <span>
+                {cell.slice(0, 100)}
+                {
+                    cell.length>100 && <span>...</span>
+                }
+                
+            </span>
+        )
+    }
+
     styles = {
         header:{
-            backgroundColor: '#ffa000', //#f5f5f5 grey white
-            color: '#fff',
             fontFamily: 'Montserrat',
-            fontSize: 16,
+            fontSize: 17,
             minWidth: 150
         },
 
@@ -209,11 +219,12 @@ class TicketAttente extends Component {
         button:{
             backgroundColor: '#ffa000',
             color: 'white',
-            width: 300,
-            marginRight: '20%',
+            width: 200,
+            height: 40,
+            marginRight: 50,
             borderRadius: 5,
             fontFamily: 'Montserrat',
-            fontSize: 18
+            fontSize: 16
         }
     }
 
@@ -272,6 +283,7 @@ class TicketAttente extends Component {
             dataField: 'description',
             text: 'Description',
             sort: false,
+            formatter: this.descriptionFormatter,
             headerStyle: this.styles.header,
             headerSortingStyle: this.styles.headerSort
         }

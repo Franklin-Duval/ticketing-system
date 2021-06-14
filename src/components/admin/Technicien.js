@@ -65,7 +65,7 @@ export default class Technicien extends Component {
                                     >
                                         {(props) => (
                                             <div>
-                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30}}>
+                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30, marginBottom: 20}}>
                                                     <SearchBar {...props.searchProps} style={{width: 350}} />
                                                 </div>
                                                 
@@ -93,10 +93,8 @@ export default class Technicien extends Component {
     
     styles = {
         header:{
-            backgroundColor: '#ffa000', //#f5f5f5 grey white
-            color: '#fff',
             fontFamily: 'Montserrat',
-            fontSize: 16,
+            fontSize: 17,
             minWidth: 150
         },
 

@@ -12,13 +12,18 @@ class Header extends Component {
             <div className="head">
                 <div className="container-fluid">
                     <div className="row" style={{ padding: 20}}>
-                        <p style={{fontFamily: 'Tauri', fontSize: 25, color: 'black'}}>DASHBOARD</p>
+                        <p style={{fontFamily: 'Tauri', fontSize: 25, color: 'white'}}>DASHBOARD</p>
                         <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end',}}>
                             <FaUserCircle color="white" size={40} />
-                            <p style={{fontFamily: 'Tauri', fontSize: 16, color: 'white', marginLeft: 10, textAlign: 'center'}}>
-                                {this.props.user.nom}
-                                {this.props.user.prenom}
-                            </p>
+                            <div>
+                                <p style={{fontFamily: 'Tauri', fontSize: 16, color: 'white', marginLeft: 10}}>
+                                    {this.props.user.nom} {this.props.user.prenom}
+                                    <br/>
+                                    
+                                </p>
+                                <p style={{fontFamily: 'Tauri', color: 'white', fontSize: 14, marginTop: -15, marginLeft: 10}}>Admin</p>
+                            </div>
+                            
                         </div>
                         
                     </div>

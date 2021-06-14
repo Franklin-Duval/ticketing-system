@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FaDesktop, FaUserCog, FaSignOutAlt, FaSpinner } from 'react-icons/fa'
+import { FaDesktop, FaUserCog, FaSignOutAlt, FaSpinner, FaUserCircle } from 'react-icons/fa'
 import { FiFilePlus } from 'react-icons/fi'
 import { FcComboChart } from 'react-icons/fc'
 import { BsFileEarmarkCheck, BsFileEarmarkDiff } from 'react-icons/bs'
@@ -16,8 +16,10 @@ class SidebarAdmin extends React.Component{
         return(
             <div>
                 <div className="side-nav">
-                    <div className="compu row" style={{marginLeft: 0}}>                        
-                        <h6 className="text-center" style={{}}><Link to="/">Tiketing System</Link></h6>
+
+                    <div style={styles.user}>
+                        <FaUserCircle color='#546e7a' size={100} />
+                        <p style={styles.text}>{this.props.user.nom} {this.props.user.prenom} </p>
                     </div>
 
                     <div className="line"></div>
@@ -101,7 +103,21 @@ const styles = {
         backgroundColor: 'black',
         marginLeft: -5,
         marginRight: 5
-    }
+    },
+
+    user:{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    text:{
+        fontFamily: 'Montserrat',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 10
+    },
 }
 
 const mapStateToProps = (state) => {

@@ -1,27 +1,28 @@
-
-.head{
-    background-image: linear-gradient(to right, #ffca28, #ffa000);
-    padding-bottom: 175px;
-    margin-bottom: -75px;
+.head {
+	background-image: linear-gradient(to right, #546e7a, #546e7a);
+	padding-bottom: 175px;
+	margin-bottom: -75px;
 }
 
-.btn-new-ticket{
-    border-radius: 5px;
-    font-size: 18px;
-    color: white;
-    font-family: Montserrat;
-    border: 1px solid white;
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: #455a64;
-    outline: none;
-    height: fit-content;
+.btn-new-ticket {
+	border-radius: 5px;
+	font-size: 16px;
+	color: white;
+	font-family: Montserrat;
+	border: 1px solid white;
+	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background-color: #455a64;
+	outline: none;
+	height: fit-content;
+	text-decoration: none;
 }
 
-.btn-new-ticket:hover{
-    outline: none;
-    border: 2px solid #455a64;
-    color: #455a64;
-    background-color: transparent;
+.btn-new-ticket:hover {
+	outline: none;
+	border: 2px solid #ffa000;
+	color: #ffa000;
+	background-color: transparent;
+	text-decoration: none;
 }

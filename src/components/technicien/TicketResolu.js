@@ -35,7 +35,12 @@ class TicketResolu extends Component {
                 })
             }
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            console.log(error)
+            this.setState({
+                isLoading: false
+            })
+        })
     }
 
     render() {
@@ -67,10 +72,10 @@ class TicketResolu extends Component {
                                     >
                                         {(props) => (
                                             <div>
-                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30}}>
-                                                    <SearchBar {...props.searchProps} style={{width: 350}} />
+                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30, marginBottom: 20}}>
+                                                    <SearchBar {...props.searchProps} style={{width: 350, height: 40, fontFamily: 'Tauri'}} />
                                                 </div>
-                                                <hr/>
+                                                
                                                 <BootstrapTable
                                                     hover
                                                     bootstrap4
@@ -162,12 +167,22 @@ class TicketResolu extends Component {
         }
     }
 
+    descriptionFormatter = (cell, row) => {
+        return(
+            <span>
+                {cell.slice(0, 100)}
+                {
+                    cell.length>100 && <span>...</span>
+                }
+                
+            </span>
+        )
+    }
+
     styles = {
         header:{
-            backgroundColor: '#ffa000', //#f5f5f5 grey white
-            color: '#fff',
             fontFamily: 'Montserrat',
-            fontSize: 16,
+            fontSize: 17,
             minWidth: 150
         },
 
@@ -232,6 +247,7 @@ class TicketResolu extends Component {
             dataField: 'description',
             text: 'Description',
             sort: false,
+            formatter: this.descriptionFormatter,
             headerStyle: this.styles.header,
             headerSortingStyle: this.styles.headerSort
         }

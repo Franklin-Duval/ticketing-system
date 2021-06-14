@@ -117,7 +117,7 @@ class NouveauTicket extends Component {
                                     >
                                         {(props) => (
                                             <div>
-                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30}}>
+                                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30, marginBottom: 20}}>
                                                     <button
                                                         style={this.styles.button}
                                                         disabled={this.state.selectedRow ? false : true}
@@ -126,9 +126,9 @@ class NouveauTicket extends Component {
                                                         Affecter un ticket
                                                     </button>
 
-                                                    <SearchBar {...props.searchProps} style={{width: 350, height: 50, fontFamily: 'Tauri'}} />
+                                                    <SearchBar {...props.searchProps} style={{width: 350, height: 40, fontFamily: 'Tauri'}} />
                                                 </div>
-                                                <hr/>
+                                                
                                                 <BootstrapTable
                                                     hover
                                                     bootstrap4
@@ -245,10 +245,8 @@ class NouveauTicket extends Component {
 
     styles = {
         header:{
-            backgroundColor: '#ffa000', //#f5f5f5 grey white
-            color: '#fff',
             fontFamily: 'Montserrat',
-            fontSize: 16,
+            fontSize: 17,
             minWidth: 150
         },
 
@@ -260,12 +258,12 @@ class NouveauTicket extends Component {
         button:{
             backgroundColor: '#ffa000',
             color: 'white',
-            width: 300,
-            height: 50,
-            marginRight: '15%',
+            width: 200,
+            height: 40,
+            marginRight: 50,
             borderRadius: 5,
             fontFamily: 'Montserrat',
-            fontSize: 18
+            fontSize: 16
         },
 
         dropDown: {
