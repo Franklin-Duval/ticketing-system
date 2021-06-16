@@ -99,7 +99,7 @@ class TicketForm extends Component {
                 <Sidebar />
                 <div style={{marginLeft: 220}}>
                     <Header />
-                    <div className="container-fluid">
+                    <div className="container-fluid" style={{marginBottom: 50}}>
                         <Card className="shadow">
                             <CardTitle className="border-0">
                                 <h5 className="mb-0" style={{marginTop: 15, marginLeft: 20}}>Formulaire de création de ticket</h5>
@@ -184,7 +184,7 @@ class TicketForm extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="submit" className="btn btn-primary">Créer</button>
+                                            <button type="submit" className="btn btn-primary" style={{width: 300}}>Créer</button>
                                         </form>
 
                                     </div>

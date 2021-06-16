@@ -29,7 +29,6 @@ class Dashboard extends Component {
         fetch(API_URL + "all-technician-tickets/" + this.props.user.id + "/")
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
             if (responseJson.success){
                 this.setState({
                     allTickets: responseJson.data,
@@ -50,7 +49,6 @@ class Dashboard extends Component {
         fetch(API_URL + 'finalize-tickets/' + this.state.selectedRow.id + '/')
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
             this.setState({isLoading: false})
             if (responseJson.success){
                 this.setState({
