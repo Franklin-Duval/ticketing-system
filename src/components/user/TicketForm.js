@@ -244,7 +244,9 @@ class TicketForm extends Component {
                 <Modal isOpen={this.state.showModal2} toggle={this.handleModal2}>
                     <ModalHeader>Opération</ModalHeader>
                     <ModalBody>
-                        Le nouveau Ticket a été crée
+                        <span style={{textAlign: 'center'}}>
+                        Le nouveau Ticket a été crée et envoyé à <br/> <strong>l'Administrateur du Système</strong>
+                        </span>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={this.handleModal2}>Fermer</Button>

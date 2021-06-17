@@ -15,7 +15,6 @@ export default class TicketResolu extends Component {
     state = {
         isLoading: true,
         finishTickets: [],
-        selectedRow: {}
     }
 
     componentDidMount(){
@@ -34,7 +33,10 @@ export default class TicketResolu extends Component {
                 })
             }
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            this.setState({isLoading: false})
+            console.log(error)
+        })
     }
 
     render() {
@@ -76,7 +78,6 @@ export default class TicketResolu extends Component {
                                                     {...props.baseProps}
                                                     noDataIndication="Aucun ticket n'est disponible pour l'instant"
                                                     bordered={false}
-                                                    selectRow={this.selectRow}
                                                     rowStyle={{}}
                                                     pagination={paginationFactory()}
                                                     
@@ -93,18 +94,6 @@ export default class TicketResolu extends Component {
                 </div>
             </div>
         )
-    }
-
-    selectRow = {
-        mode: 'radio',
-        clickToSelect: true,
-        style: {
-            backgroundColor: '#ffe0b2',
-        },
-        onSelect: (row) => {
-            this.setState({selectedRow: row})
-            console.log("selected", row)
-        }
     }
 
     priorityFormatter = (cell, row) => {

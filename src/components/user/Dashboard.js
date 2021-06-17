@@ -16,7 +16,7 @@ class Dashboard extends Component {
     state = {
         isLoading: true,
         allTickets: [],
-        selectedRow: {},
+        selectedRow: null,
         showModal: false,
         message: ""
     }

@@ -16,7 +16,7 @@ class TicketAttente extends Component {
     state = {
         isLoading: true,
         waitingTickets: [],
-        selectedRow: {},
+        selectedRow: null,
         showModal: false,
         message: ""
     }

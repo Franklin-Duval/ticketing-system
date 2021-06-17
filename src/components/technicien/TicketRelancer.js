@@ -18,7 +18,6 @@ class TicketRelancer extends Component {
     state = {
         isLoading: true,
         waitingTickets: [],
-        selectedRow: {}
     }
 
     componentDidMount(){
@@ -84,7 +83,6 @@ class TicketRelancer extends Component {
                                                     {...props.baseProps}
                                                     noDataIndication="Aucun ticket n'est disponible pour l'instant"
                                                     bordered={false}
-                                                    selectRow={this.selectRow}
                                                     rowStyle={{}}
                                                     pagination={paginationFactory()}
                                                 />
@@ -100,18 +98,6 @@ class TicketRelancer extends Component {
                 </div>
             </div>
         )
-    }
-
-    selectRow = {
-        mode: 'radio',
-        clickToSelect: true,
-        style: {
-            backgroundColor: '#ffe0b2',
-        },
-        onSelect: (row) => {
-            this.setState({selectedRow: row})
-            console.log("selected", row)
-        }
     }
 
     priorityFormatter = (cell, row) => {
