@@ -1,19 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import { Card, CardBody, CardTitle, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { API_URL } from '../layouts/constants'
 
-import { FaUserCircle } from 'react-icons/fa'
+import { FaUserCircle, FaBell } from 'react-icons/fa'
 import '../../assets/css/header.css'
 
 class Header extends Component {
 
     state = {
-        stats: {}
+        stats: {},
+        update: false,
+        showModal: false,
+        showModal2: false,
+        mdp: ""
     }
 
     componentDidMount(){
         this.fetchStats()
+        this.fetchNewTechnicien()
     }
 
     fetchStats = () => {
@@ -29,12 +34,88 @@ class Header extends Component {
         })
     }
 
+    fetchNewTechnicien = () => {
+        fetch(API_URL + "check-password/" + this.props.user.id + "/")
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                update: responseJson.update
+            })
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
+    updatePassword = () => {
+        this.setState({showModal: false})
+        fetch(API_URL + 'update-password/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: this.props.user.id,
+                password: this.state.mdp
+            })
+
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            if (responseJson.status === true){
+                this.setState({
+                    isLoading: false,
+                    showModal2: true,
+                })
+            }
+            else{
+                this.setState({
+                    isLoading: false,
+                })
+            }
+            
+        })
+        .catch((error) =>{
+            console.log(error)
+            this.setState({
+                isLoading: false
+            })
+        })
+    }
+
+    handleModal = () => this.setState({showModal: !this.state.showModal})
+
+    handleModal2 = () => {
+        this.setState({
+            showModal2: !this.state.showModal2,
+            update: false
+        })
+    }
+
     render() {
         return (
             <div className="head">
                 <div className="container-fluid">
                     <div className="row" style={{ padding: 20}}>
                         <p style={{fontFamily: 'Tauri', fontSize: 25, color: 'white'}}>DASHBOARD</p>
+                        
+                        {
+                            this.state.update && (
+                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
+                                    <FaBell className="heart" size={25} />
+                                    <button 
+                                        className="notif"
+                                        onClick={() => this.setState({showModal: true})}
+                                    >
+                                        Update Password
+                                    </button>
+                                    
+                                </div>
+                                
+                            )
+                        }
+                        
                         <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end',}}>
                             <FaUserCircle color="white" size={40} />
                             <div>
@@ -109,6 +190,41 @@ class Header extends Component {
                         </div>
                     </Container>
                 </div>
+
+                <Modal isOpen={this.state.showModal} toggle={this.handleModal}>
+                    <ModalHeader toggle={() => this.setState({showModal: false})}>Signalez le type problème</ModalHeader>
+                    <ModalBody>
+                        
+                        <div className="form-group">
+                            <div className="col-xs-2">
+                            
+                                <label htmlFor="autre">Nouveau Mot de Passe</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    placeholder="Mot de passe"
+                                    value={this.state.mdp}
+                                    onChange={(event) => this.setState({mdp: event.target.value})}
+                                />
+                            </div>
+                        </div>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.updatePassword}>Valider</Button>
+                        <Button color="secondary" onClick={this.handleModal}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.showModal2} toggle={this.handleModal2}>
+                    <ModalHeader>Opération</ModalHeader>
+                    <ModalBody>
+                        Le mot de passe a été mis a jour avec succès
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.handleModal2}>Fermer</Button>
+                    </ModalFooter>
+                </Modal>
             </div>
             
         )
