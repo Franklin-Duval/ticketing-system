@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardTitle, } from "reactstrap"
 import { BeatLoader } from 'react-spinners'
+import { Link } from 'react-router-dom'
 
 import Sidebar from './SidebarAdmin'
 import Header from './HeaderAdmin'
@@ -25,7 +26,6 @@ export default class Technicien extends Component {
         fetch(API_URL + "techniciens/")
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
             if (responseJson.success){
                 this.setState({
                     allTechnicians: responseJson.data,
@@ -33,7 +33,10 @@ export default class Technicien extends Component {
                 })
             }
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            this.setState({isLoading: false})
+            console.log(error)
+        })
     }
 
     render() {
@@ -68,12 +71,10 @@ export default class Technicien extends Component {
                                                 <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30, marginBottom: 20}}>
                                                     <button
                                                         style={this.styles.button}
-                                                        disabled={this.state.selectedRow ? false : true}
-                                                        onClick={() => this.relancerTicket()}
                                                     >
-                                                        Nouveau Technicien
+                                                        <Link to="/admin/new-technicien" style={{textDecoration: 'none', color: 'white'}}>Nouveau Technicien</Link>
                                                     </button>
-
+                                                    
                                                     <SearchBar {...props.searchProps} style={{width: 350}} />
                                                 </div>
                                                 
@@ -166,7 +167,7 @@ export default class Technicien extends Component {
 
         {
             dataField: 'number_ticket',
-            text: 'Nombre de ticket',
+            text: 'Ticket en cours',
             sort: true,
             headerStyle: this.styles.header,
             headerSortingStyle: this.styles.headerSort
