@@ -7,6 +7,7 @@ import Sidebar from './SidebarAdmin'
 import Header from './HeaderAdmin'
 import ToolkitProvider, { Search, } from 'react-bootstrap-table2-toolkit'
 import BootstrapTable from 'react-bootstrap-table-next'
+import paginationFactory from 'react-bootstrap-table2-paginator'
 
 import { API_URL } from '../layouts/constants'
 
@@ -84,6 +85,7 @@ export default class Technicien extends Component {
                                                     {...props.baseProps}
                                                     noDataIndication="Aucun technicien n'est disponible pour l'instant"
                                                     bordered={false}
+                                                    pagination={paginationFactory()}
                                                     
                                                 />
                                             </div>

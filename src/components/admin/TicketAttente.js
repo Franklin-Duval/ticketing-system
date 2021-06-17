@@ -6,6 +6,7 @@ import Sidebar from './SidebarAdmin'
 import Header from './HeaderAdmin'
 import ToolkitProvider, { Search, } from 'react-bootstrap-table2-toolkit'
 import BootstrapTable from 'react-bootstrap-table-next'
+import paginationFactory from 'react-bootstrap-table2-paginator'
 
 import { API_URL } from '../layouts/constants'
 import { connect } from 'react-redux'
@@ -142,6 +143,7 @@ class TicketAttente extends Component {
                                                     bordered={false}
                                                     selectRow={this.selectRow}
                                                     rowStyle={{}}
+                                                    pagination={paginationFactory()}
                                                     
                                                 />
                                             </div>

@@ -6,6 +6,7 @@ import Sidebar from './SidebarAdmin'
 import Header from './HeaderAdmin'
 import ToolkitProvider, { Search, } from 'react-bootstrap-table2-toolkit'
 import BootstrapTable from 'react-bootstrap-table-next'
+import paginationFactory from 'react-bootstrap-table2-paginator'
 
 import { API_URL } from '../layouts/constants'
 
@@ -77,6 +78,7 @@ export default class TicketResolu extends Component {
                                                     bordered={false}
                                                     selectRow={this.selectRow}
                                                     rowStyle={{}}
+                                                    pagination={paginationFactory()}
                                                     
                                                 />
                                             </div>
