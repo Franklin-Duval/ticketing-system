@@ -66,6 +66,14 @@ export default class Technicien extends Component {
                                         {(props) => (
                                             <div>
                                                 <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: 30, marginBottom: 20}}>
+                                                    <button
+                                                        style={this.styles.button}
+                                                        disabled={this.state.selectedRow ? false : true}
+                                                        onClick={() => this.relancerTicket()}
+                                                    >
+                                                        Nouveau Technicien
+                                                    </button>
+
                                                     <SearchBar {...props.searchProps} style={{width: 350}} />
                                                 </div>
                                                 
@@ -101,6 +109,17 @@ export default class Technicien extends Component {
         headerSort:{
             backgroundColor: '#e0e0e0',
 
+        },
+
+        button:{
+            backgroundColor: '#ffa000',
+            color: 'white',
+            width: 200,
+            height: 40,
+            marginRight: 50,
+            borderRadius: 5,
+            fontFamily: 'Montserrat',
+            fontSize: 16
         }
     }
 

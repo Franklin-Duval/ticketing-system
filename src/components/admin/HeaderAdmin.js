@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { FaUserCircle } from 'react-icons/fa'
+import { FaUserCircle, FaBell } from 'react-icons/fa'
 import { connect } from 'react-redux'
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap"
 import { API_URL } from '../layouts/constants'
+import { Link} from 'react-router-dom'
 
 import { BsFileEarmarkCheck, } from 'react-icons/bs'
 import '../../assets/css/header.css'
@@ -10,11 +11,13 @@ import '../../assets/css/header.css'
 class Header extends Component {
     
     state = {
-        stats: {}
+        stats: {},
+        problems: []
     }
 
     componentDidMount(){
         this.fetchStats()
+        this.fetchNewProb()
     }
 
     fetchStats = () => {
@@ -30,12 +33,45 @@ class Header extends Component {
         })
     }
 
+    fetchNewProb = () => {
+        fetch(API_URL + "new-problems/")
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.setState({
+                problems: responseJson.data,
+            })
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
     render() {
         return (
             <div className="head">
                 <div className="container-fluid">
                     <div className="row" style={{ padding: 20}}>
                         <p style={{fontFamily: 'Tauri', fontSize: 25, color: 'white'}}>DASHBOARD</p>
+
+                        {
+                            this.state.problems.length !== 0 && (
+                                <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
+                                    <FaBell className="heart" size={25} />
+                                    <Link 
+                                        className="notif"
+                                        to={{
+                                            pathname: "/admin/new-problem",
+                                            state: this.state.problems
+                                        }}
+                                    >
+                                        {this.state.problems.length} 
+                                    </Link>
+                                    
+                                </div>
+                                
+                            )
+                        }
+                        
                         <div style={{flex: 1, display: 'flex', justifyContent: 'flex-end',}}>
                             <FaUserCircle color="white" size={40} />
                             <div>

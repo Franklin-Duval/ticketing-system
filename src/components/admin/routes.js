@@ -6,6 +6,7 @@ import NouveauTicket from './NouveauTicket'
 import TicketAttente from './TicketAttente'
 import TicketResolu from './TicketResolu'
 import TicketRelancer from './TicketRelancer'
+import NouveauProblem from './NouveauProblem'
 import Protected from '../layouts/protectedRoutes'
 
 const Routes = () => {
@@ -18,6 +19,7 @@ const Routes = () => {
             <Protected exact path="/admin/ticket-en-attente" component={TicketAttente} />
             <Protected exact path="/admin/ticket-resolu" component={TicketResolu} />
             <Protected exact path="/admin/ticket-relancer" component={TicketRelancer} />
+            <Protected exact path="/admin/new-problem" component={NouveauProblem} />
             
         </>
     )

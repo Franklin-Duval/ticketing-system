@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, CardBody, CardTitle, } from "reactstrap";
+import { Card, CardBody, CardTitle, Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { Redirect } from 'react-router-dom'
 import Sidebar from './SidebarUser'
 import Header from './HeaderUser'
@@ -19,7 +19,10 @@ class TicketForm extends Component {
         urlProblem:"",
         visible: false,
         description:"",
-        finish: false
+        finish: false,
+        newProbleme: "",
+        showModal: false,
+        showModal2: false
     }
 
     componentDidMount(){
@@ -53,6 +56,30 @@ class TicketForm extends Component {
         .catch((error) => console.log(error))
     }
 
+    handleProblem = (event) => {
+        this.setState({isLoading: true})
+        event.preventDefault()
+        fetch(API_URL + 'probleme/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                nom: this.state.newProbleme,
+            })
+
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            this.setState({showModal: false})
+            this.fetchProblems()
+        })
+        .catch((error) =>{
+            console.log(error)
+        })
+    }
 
     handleSubmit = (event) => {
         this.setState({isLoading: true})
@@ -77,15 +104,23 @@ class TicketForm extends Component {
             console.log(responseJson);
             this.setState({
                 isLoading: false,
-                finish: true
+                showModal2: true,
             })
         })
         .catch((error) =>{
             console.log(error)
             this.setState({
-                isLoading: false,
-                finish: true
+                isLoading: false
             })
+        })
+    }
+
+    handleModal = () => this.setState({showModal: !this.state.showModal})
+
+    handleModal2 = () => {
+        this.setState({
+            showModal2: !this.state.showModal2,
+            finish: true
         })
     }
 
@@ -138,7 +173,7 @@ class TicketForm extends Component {
                                                         <label htmlFor="probleme">Type de Problème</label>
                                                         <select className="form-control" id="probleme" onChange={(event) => {
                                                             if(event.target.value === "autre"){
-                                                                this.setState({visible: true})
+                                                                this.setState({showModal: true})
                                                             }
                                                             else{
                                                                 this.setState({
@@ -165,18 +200,6 @@ class TicketForm extends Component {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                {
-                                                    this.state.visible && 
-                                                    (
-                                                    <div className="col-xs-2">
-                                                    
-                                                        <label htmlFor="autre">Autre</label>
-                                                        <input id="autre" type="text" className="form-control" name="msg" placeholder="Donnez un nom à votre problème"/>
-                                                    </div>
-                                                    ) 
-                                                }
-                                            </div>
-                                            <div className="form-group">
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <label htmlFor="description">Décrivez brièvement le problème rencontré</label>
@@ -193,6 +216,40 @@ class TicketForm extends Component {
                         </Card>
                     </div>
                 </div>
+
+                <Modal isOpen={this.state.showModal} toggle={this.handleModal}>
+                    <ModalHeader toggle={() => this.setState({showModal: false})}>Signalez le type problème</ModalHeader>
+                    <ModalBody>
+                        
+                        <div className="form-group">
+                            <div className="col-xs-2">
+                            
+                                <label htmlFor="autre">Problème</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Donnez un nom au type de problème"
+                                    onChange={(event) => this.setState({newProbleme: event.target.value})}
+                                />
+                            </div>
+                        </div>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.handleProblem}>Valider</Button>
+                        <Button color="secondary" onClick={this.handleModal}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <Modal isOpen={this.state.showModal2} toggle={this.handleModal2}>
+                    <ModalHeader>Opération</ModalHeader>
+                    <ModalBody>
+                        Le nouveau Ticket a été crée
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.handleModal2}>Fermer</Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         )
     }
