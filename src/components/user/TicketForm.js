@@ -154,7 +154,7 @@ class TicketForm extends Component {
                                                 <div className="row">
                                                     <div className="col-md-6">
                                                         <label htmlFor="service">Service</label>
-                                                        <select className="form-control" id="service" onChange={(event) => this.setState({urlService: event.target.value})}>
+                                                        <select className="form-control" id="service" required onChange={(event) => this.setState({urlService: event.target.value})}>
                                                             <option>---------</option>
                                                             {
                                                                 this.state.allServices.map((item, index) => {
@@ -171,7 +171,7 @@ class TicketForm extends Component {
 
                                                     <div className="col-md-6">
                                                         <label htmlFor="probleme">Type de Problème</label>
-                                                        <select className="form-control" id="probleme" onChange={(event) => {
+                                                        <select className="form-control" id="probleme" required onChange={(event) => {
                                                             if(event.target.value === "autre"){
                                                                 this.setState({showModal: true})
                                                             }
@@ -203,7 +203,7 @@ class TicketForm extends Component {
                                                 <div className="row">
                                                     <div className="col-md-12">
                                                         <label htmlFor="description">Décrivez brièvement le problème rencontré</label>
-                                                        <textarea className="form-control" id="description" rows="5"  onChange={(event) => this.setState({description: event.target.value})}></textarea>
+                                                        <textarea className="form-control" id="description" rows="5" required  onChange={(event) => this.setState({description: event.target.value})}></textarea>
                                                     </div>
                                                 </div>
                                             </div>

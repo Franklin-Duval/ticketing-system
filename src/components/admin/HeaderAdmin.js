@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap"
 import { API_URL } from '../layouts/constants'
 import { Link} from 'react-router-dom'
-
-import { BsFileEarmarkCheck, } from 'react-icons/bs'
 import '../../assets/css/header.css'
 
 class Header extends Component {
@@ -105,7 +103,6 @@ class Header extends Component {
                                                 {this.state.stats.num_new_tik}
                                                 </span>
                                             </div>
-                                            <BsFileEarmarkCheck color='green' size={30} />
                                         </Row>
                                     </CardBody>
                                     </Card>
